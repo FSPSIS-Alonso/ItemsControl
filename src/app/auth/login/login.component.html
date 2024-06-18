@@ -1,0 +1,28 @@
+<div>
+  <form class="container" [formGroup]="loginForm">
+    <p-floatLabel>
+      <input pInputText id="dbName" formControlName="dbName" />
+      <label for="dbName">Data Base</label>
+    </p-floatLabel>
+    <p-floatLabel>
+      <input pInputText id="username" formControlName="user" />
+      <label for="username">Username</label>
+    </p-floatLabel>
+    <p-floatLabel>
+      <input pInputText id="password" formControlName="psw" />
+      <label for="password">Password</label>
+    </p-floatLabel>
+    @if(isValidControlRequired('psw')){
+    <p>Password is required</p>
+    } @if(isValidControlLength('psw',3)){
+    <p>Password min length is 3</p>
+    }
+    <button
+      pButton
+      pRipple
+      label="Submit"
+      class="p-button-success"
+      (click)="logUser()"
+    ></button>
+  </form>
+</div>
