@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
   private fb: FormBuilder = inject(FormBuilder);
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
   private _loginForm: FormGroup;
 
   private _tryLogin: boolean = false;
@@ -18,13 +22,14 @@ export class LoginComponent {
     //psw
     this._loginForm = this.fb.group({
       dbName: ['', [Validators.minLength(3), Validators.required]],
-      user: ['', [Validators.minLength(3), Validators.maxLength(4)]],
-      psw: ['', [Validators.required, Validators.minLength(3)]],
+      user: ['', [Validators.minLength(2), Validators.required]],
+      psw: ['', [Validators.required]],
     });
   }
 
   logUser() {
     console.clear();
+
     this._tryLogin = true;
     if (!this._loginForm.valid) {
       this._loginForm.markAsDirty({ onlySelf: false });
@@ -34,9 +39,19 @@ export class LoginComponent {
       });
       return;
     }
-    console.log(this._loginForm.get('psw'));
-    console.log(this._loginForm.value);
-    console.log(this._loginForm.valid);
+    const { user, dbName, psw } = this._loginForm.value;
+    this.authService.login(user, dbName, psw).subscribe({
+      next: (data) => {
+        console.log('NEXT');
+        this.router.navigate(['/home']);
+      },
+      error: () => {
+        console.log('ERROR');
+      },
+      complete: () => {
+        console.log('COMP');
+      },
+    });
   }
 
   isValidControlRequired(control: string) {
@@ -44,9 +59,9 @@ export class LoginComponent {
     if (!controlInput?.hasValidator(Validators.required)) return false;
     return !controlInput?.valid && controlInput?.dirty && this._tryLogin;
   }
+
   isValidControlLength(control: string, long: number) {
     let controlInput = this._loginForm.get(control);
-    console.log(controlInput?.value.length);
     return (
       !controlInput?.valid &&
       controlInput?.dirty &&

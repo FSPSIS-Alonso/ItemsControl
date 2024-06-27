@@ -1,0 +1,31 @@
+<div
+  style="
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    justify-content: space-between;
+  "
+>
+  <p-floatLabel>
+    <input pInputText id="itemCode" [(ngModel)]="item.ItemCode" />
+    <label for="itemCode">itemCode</label>
+  </p-floatLabel>
+
+  <p-floatLabel>
+    <input pInputText id="itemName" [(ngModel)]="item.ItemName" />
+    <label for="itemName">itemName</label>
+  </p-floatLabel>
+
+  <p-floatLabel>
+    <input pInputText id="forName" [(ngModel)]="item.ForeignName" />
+    <label for="forName">ForeignName</label>
+  </p-floatLabel>
+</div>
+<div style="margin-top: 10px">
+  <p-button
+    label="Guardar"
+    icon="pi pi-check"
+    severity="info"
+    (onClick)="onSaveItem()"
+  />
+</div>
