@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   private fb: FormBuilder = inject(FormBuilder);
-  authService: AuthService = inject(AuthService);
+  private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private _loginForm: FormGroup;
 
@@ -24,6 +24,7 @@ export class LoginComponent {
       dbName: ['', [Validators.minLength(3), Validators.required]],
       user: ['', [Validators.minLength(2), Validators.required]],
       psw: ['', [Validators.required]],
+      test: [''],
     });
   }
 
