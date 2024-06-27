@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   private fb: FormBuilder = inject(FormBuilder);
-  private authService: AuthService = inject(AuthService);
+  authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private _loginForm: FormGroup;
 
@@ -72,5 +72,8 @@ export class LoginComponent {
 
   get loginForm() {
     return this._loginForm;
+  }
+  get tryLogin() {
+    return this._tryLogin;
   }
 }
