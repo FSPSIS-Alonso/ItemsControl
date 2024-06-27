@@ -1,6 +1,11 @@
-import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +24,21 @@ export class InterceptorsService {
       withCredentials: true,
     });
 
-    return next.handle(newReq);
+    return next
+      .handle(newReq)
+      .pipe(catchError((error) => this.manejarErrores(error)));
+  }
+
+  manejarErrores(error: HttpErrorResponse) {
+    const status = error.status;
+
+    //404
+    //500
+
+    if (status > 399 && status <= 499) {
+      alert(error.message);
+    }
+
+    return throwError(() => error);
   }
 }
